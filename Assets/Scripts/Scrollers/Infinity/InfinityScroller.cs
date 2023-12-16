@@ -12,11 +12,11 @@ namespace UITemplates.Scrollers.Infinity
         [SerializeField] protected ElementCell cellPrefab;
         [SerializeField] protected RectTransform viewportTransform;
         [SerializeField] protected RectTransform contentTransform;
-        [SerializeField] protected List<TestData> elementDatas;
 
         protected int itemToAdd = 0;
         protected bool isUpdated = false;
         protected Vector2 oldVelocity;
+        protected List<TestData> elementDatas;
 
         private IEnumerator Start()
         {
@@ -80,5 +80,10 @@ namespace UITemplates.Scrollers.Infinity
         protected abstract void CalculateItemToAdd();
         protected abstract void UpdatePosition();
         protected abstract void CalculateStartPosition();
+
+        public void SetDataCollection(List<TestData> datas)
+        {
+            elementDatas = datas;
+        }
     }
 }
