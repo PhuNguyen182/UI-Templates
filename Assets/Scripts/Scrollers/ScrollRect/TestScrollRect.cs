@@ -25,8 +25,10 @@ namespace Test
         [SerializeField] private Scroller scroller;
         [SerializeField] private float cellSize;
         [SerializeField] private GameObject cellPrefab;
+        [SerializeField] private TestScrollRectCell pivotCell;
 
         private bool _isChange = false;
+        private TestScrollRectCell rectCell;
 
         protected override float CellSize => cellSize;
 
@@ -64,13 +66,28 @@ namespace Test
             }
         }
 
-        private void Update()
+        private void OnEnable()
         {
-            if (Input.GetKeyDown(KeyCode.K))
+            TestScrollRectCell.OnCellSelected += SetPlayerCell;
+        }
+
+        private void OnDisable()
+        {
+            TestScrollRectCell.OnCellSelected -= SetPlayerCell;
+        }
+
+        private void ExecuteCell()
+        {
+            if (rectCell != null)
             {
-                _isChange = !_isChange;
-                OnCellAnimationSwitch?.Invoke(_isChange);
+                pivotCell.gameObject.SetActive(rectCell.Position >= 0.9f);
             }
+        }
+
+        private void SetPlayerCell(TestScrollRectCell testCell)
+        {
+            rectCell = testCell;
+            ExecuteCell();
         }
 
         public void UpdateData(IList<TestCellData> items)

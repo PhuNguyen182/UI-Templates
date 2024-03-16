@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using EasingCore;
+using FancyScrollView;
 
 namespace Test {
     public class ScrollRectExample : MonoBehaviour
@@ -11,7 +12,6 @@ namespace Test {
         [SerializeField] private TestScrollRect scrollRect;
 
         private List<TestCellData> data;
-        private WaitForSeconds waitForSeconds = new WaitForSeconds(2.5f);
 
         private void Start()
         {

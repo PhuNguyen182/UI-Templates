@@ -1,10 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FancyScrollView;
 using DG.Tweening;
-using TMPro;
 using UnityEngine.UI;
+using TMPro;
 
 namespace Test
 {
@@ -15,20 +16,18 @@ namespace Test
         [SerializeField] private RectTransform cellRect;
         [SerializeField] private Animator cellAnimator;
 
-        private static int _isScrollableHash = Animator.StringToHash("IsScalable");
-        private static int _normalScrollHash = Animator.StringToHash("Normal Scroll");
-        private static int _scalableScrollHash = Animator.StringToHash("Scalable Scroll");
+        private static readonly int _normalScrollHash = Animator.StringToHash("Normal Scroll");
 
-        private TestCellData _cellData;
-        private Tween changeCellTween;
         private float position;
-        private int currentStateHash;
-        private bool _isScrollable = false;
+        private TestCellData _cellData;
+
+        public float Position => position;
+        public TestCellData Data => _cellData;
+        public static event Action<TestScrollRectCell> OnCellSelected;
 
         private void OnEnable()
         {
             UpdatePosition(position);
-            TestScrollRect.OnCellAnimationSwitch += ChangeAnimation;
         }
 
         public override void Initialize()
@@ -46,34 +45,14 @@ namespace Test
         {
             if (cellAnimator.isActiveAndEnabled)
             {
-                cellAnimator.Play(currentStateHash, 0, position);
+                cellAnimator.Play(_normalScrollHash, 0, position);
                 cellAnimator.speed = 0;
             }
 
             this.position = position;
-        }
 
-        private void ChangeAnimation(bool isScrollable)
-        {
-            currentStateHash = isScrollable ? _scalableScrollHash : _normalScrollHash;
-            cellAnimator.SetBool(_isScrollableHash, isScrollable);
-        }
-
-        private void CreateTween()
-        {
-            changeCellTween ??= cellRect.DOSizeDelta(new Vector2(650, 100), 0.25f)
-                                        .SetEase(Ease.InOutSine).SetLoops(2, LoopType.Yoyo);
-        }
-
-        private void OnDisable()
-        {
-            TestScrollRect.OnCellAnimationSwitch -= ChangeAnimation;
-            Debug.Log("");
-        }
-
-        private void OnDestroy()
-        {
-            changeCellTween?.Kill();
+            if (_cellData != null && _cellData.Number == 20)
+                OnCellSelected?.Invoke(this);
         }
     }
 }
