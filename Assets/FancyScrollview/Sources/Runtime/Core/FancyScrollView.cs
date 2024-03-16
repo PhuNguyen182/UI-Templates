@@ -48,6 +48,8 @@ namespace FancyScrollView
 
         readonly IList<FancyCell<TItemData, TContext>> pool = new List<FancyCell<TItemData, TContext>>();
 
+        public IList<FancyCell<TItemData, TContext>> Pool => pool;
+
         /// <summary>
         /// 初期化済みかどうか.
         /// </summary>

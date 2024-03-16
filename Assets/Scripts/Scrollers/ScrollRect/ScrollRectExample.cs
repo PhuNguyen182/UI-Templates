@@ -7,6 +7,7 @@ using EasingCore;
 namespace Test {
     public class ScrollRectExample : MonoBehaviour
     {
+        [SerializeField] private Ease ease;
         [SerializeField] private TestScrollRect scrollRect;
 
         private List<TestCellData> data;
@@ -21,7 +22,9 @@ namespace Test {
         {
             if (Input.GetKeyDown(KeyCode.C))
             {
-                scrollRect.ScrollTo(20, 1, Ease.Linear, Alignment.Middle);
+                int rand = Random.Range(0, 49);
+                Debug.Log(rand);
+                scrollRect.ScrollTo(rand, 1, ease, Alignment.Middle);
             }
         }
 

@@ -68,6 +68,7 @@ namespace Test
         private void OnDisable()
         {
             TestScrollRect.OnCellAnimationSwitch -= ChangeAnimation;
+            Debug.Log("");
         }
 
         private void OnDestroy()
